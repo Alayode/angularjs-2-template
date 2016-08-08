@@ -1,5 +1,5 @@
 //Validation Built in chapter 04-04 is added
-
+// Chapter 05 building a year Validators 
 
 
 import {Component} from 'angular2/core';
@@ -21,9 +21,19 @@ export class MediaItemFormComponent {
                Validators.pattern('[\\w\\-\\s\\/]+')
            ])),
            'category' : new Control(''),
-           'year' : new Control('')
+           'year' : new Control('', this.yearValidator)
        });
    }
+
+   yearValidator(control) {
+       if(control.value.trim().length === 0) return null;
+       var year = parseInt(control.value);
+       var minYear = 1900;
+       var maxYear = 2100;
+       if (year >= minYear && year <= maxYear ) return null;
+       return { 'year' : true };
+   }
+
 
     onSubmit(mediaItem){
         console.log(mediaItem);
