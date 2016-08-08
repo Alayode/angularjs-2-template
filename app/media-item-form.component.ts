@@ -1,9 +1,9 @@
 //Validation Built in chapter 04-04 is added
 // Chapter 05 building a year Validators 
-
+// using FormBuilder private keyword and no longer need ControlGroup
 
 import {Component} from 'angular2/core';
-import {ControlGroup,Control,Validators} from 'angular2/common';
+import {Control,Validators,FormBuilder} from 'angular2/common';
 
 
 @Component({
@@ -13,8 +13,13 @@ import {ControlGroup,Control,Validators} from 'angular2/common';
 })
 export class MediaItemFormComponent {
    form;
+
+   constructor(private formBuilder:FormBuilder){
+
+   }
+
    ngOnInit(){
-       this.form = new ControlGroup({
+       this.form = this.formBuilder.group({
            'medium' : new Control('Movies'),
            'name' : new Control('', Validators.compose([
                Validators.required,
@@ -28,10 +33,12 @@ export class MediaItemFormComponent {
    yearValidator(control) {
        if(control.value.trim().length === 0) return null;
        var year = parseInt(control.value);
-       var minYear = 1900;
-       var maxYear = 2100;
+       var minYear = 1800;
+       var maxYear = 2500;
        if (year >= minYear && year <= maxYear ) return null;
-       return { 'year' : true };
+       return { 'year' : {
+           'min':minYear,'max':maxYear 
+        }};
    }
 
 
