@@ -9,14 +9,15 @@
             <label for="medium">Medium</label>
             <select name="medium" id="medium" required 
                 ngControl="medium">
-                <option value="Movies">Movies</option>
-                <option value="Series">Series</option>
+                <option *ngFor="#medium of lookupList.mediums" value="{{medium}}">{{medium}} </option>
             </select>
         </li>
         <li>
             <label for="name">Name</label>
             <input type="text" name="name" id="name" required
-                ngControl="name">
+                ngControl="name"
+                #name="ngForm">
+                <div *ngIf="name.errors?.name" class="error">name is invalid</div>
         </li>
         <li>
             <label for="category">Category</label>
@@ -31,9 +32,12 @@
             </select>
         </li>
         <li>
+            <!--LABEL FOR YEAR-->
             <label for="year">Year</label>
             <input type="text" name="year" id="year" maxlength="4"
-                ngControl="year">
+                ngControl="year"
+                #year="ngForm">
+                <div *ngIf="year.errors?.year" class="error">must between {{year.errors?.year.min}} and {{year.errors?.year.max}}</div>
         </li>
     </ul>
     <button type="submit" [disabled]="!form.valid">Save</button>
